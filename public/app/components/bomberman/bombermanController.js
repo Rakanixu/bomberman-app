@@ -1,6 +1,6 @@
 'use strict';
 /**
- *  Handshake controller
+ *  Bomberman game controller
  */
 app.controller('BombermanController', [
 	'$scope', 
