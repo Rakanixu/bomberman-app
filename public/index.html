@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Bomberman</title>
+		<meta name="author" content="Pablo Aguirre">
+		<link rel="stylesheet" href="assets/css/main.css">
+		<script src="assets/lib/socket.io-1.2.0.js"></script>
+	</head>
+	<body ng-app="bomberman">
+		<main ng-view></main>
+		<script src="assets/js/utils.js"></script>
+		<script src="assets/lib/angular.min.js"></script>
+		<script src="assets/lib/angular-route.js"></script>
+		<script src="app/components/app.modules.js"></script>
+		<script src="app/components/handshake/handshakeService.js"></script>
+		<script src="app/components/handshake/handshakeController.js"></script>
+		<script src="app/components/bomberman/bombermanService.js"></script>
+		<script src="app/components/bomberman/bombermanController.js"></script>
+	</body>
+</html>

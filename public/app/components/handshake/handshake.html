@@ -1,0 +1,29 @@
+<div class="handshake">
+	<h1>Bomberman</h1>
+ 	<div>
+		<h2>Available rooms</h2>
+		<p ng-show="handshake.clientInRoom">
+			<span>
+				<img class="loading" src="assets/img/loading.gif" alt="loading game"/>
+			</span>
+			Please wait... {{handshake.room.players.length}}/{{handshake.room.size}} connected
+		</p>
+		<div ng-show="!handshake.clientInRoom && room.players.length < room.size" ng-repeat="room in handshake.roomList track by $index">
+			<p>
+				<h3>Room {{$index + 1}}</h3>
+				<span>Players: </span><span ng-bind="room.players.length">0</span>/<span ng-bind="room.size"></span>
+				<button type="button" ng-click="handshake.joinRoom(room.roomName)">Join room</button>
+			</p>
+		</div>
+	</div> 
+
+	<div ng-show="!handshake.roomCreatedByUser && !handshake.clientInRoom">
+		<h2>Create new room</h2>
+		<label>Select number of players</label>
+		<select ng-model="handshake.roomSize" ng-change="handshake.createRoom()" ng-options="size.val for size in handshake.roomSizeSelector">
+			<option value="">Select number of players</option>
+		</select>
+	</div>
+
+</div>
+

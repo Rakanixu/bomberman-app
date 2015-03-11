@@ -1,0 +1,35 @@
+html {
+	min-height:100vh;
+	font-size: 20px;
+	background: -webkit-linear-gradient(#00DDEB, #6E58FB);
+	background: -o-linear-gradient(#00DDEB, #6E58FB); 
+	background: -moz-linear-gradient(#00DDEB, #6E58FB);
+	background: linear-gradient(#00DDEB, #6E58FB);
+}
+
+body {
+	margin: 0;
+}
+
+main {
+	width: 100%;
+	overflow: hidden;
+}
+
+button {
+	background-color: #1575FC;
+	border-radius: 5px;
+	min-width:100px;
+	min-height: 25px;
+}
+
+
+img.loading {
+	width: 15px;
+}
+
+.handshake {
+	text-align: center;
+}
+
+
