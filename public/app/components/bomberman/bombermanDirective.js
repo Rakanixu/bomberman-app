@@ -3,33 +3,49 @@
  * Bomberman directive
  * Wraps all the Three.js code
  */
-app.directive('bombermanThreeJs', [function() {
-	return {
-		link: function (scope, elem, attr) {
-			var scene = new THREE.Scene();
-			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+app.directive('bombermanThreeJs', [
+	'$window', 
+	'SceneService', 
+	'CameraService',
+	'HandshakeService',
+	'BombermanService',
+	function($window, scene, camera, handshake, bomberman) {
+		var camera = camera.camera,
+			scene = scene.scene;
 
-			var renderer = new THREE.WebGLRenderer();
-			renderer.setSize( window.innerWidth, window.innerHeight );
-			document.body.appendChild( renderer.domElement );
+		return {
+			link: function ($scope, $element, attr) {
+				var renderer = new THREE.WebGLRenderer();
 
-			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-			var cube = new THREE.Mesh( geometry, material );
-			scene.add( cube );
+				renderer.setSize($window.innerWidth, $window.innerHeight);
+				$element.append(renderer.domElement);
 
-			camera.position.z = 5;
+				bomberman.initCharacters();
 
-			var render = function () {
-				requestAnimationFrame( render );
 
-				cube.rotation.x += 0.1;
-				cube.rotation.y += 0.1;
+				for (var i = 0; i < bomberman.characters.length; i++) {
+					scene.add(bomberman.characters[i]);
+				}
 
-				renderer.render(scene, camera);
-			};
 
-			render();
+
+
+
+
+				var render = function () {
+					requestAnimationFrame(render);
+					
+					if (bomberman.characters[0].position.x > (camera.visibleWidth/2) - 50) {
+						bomberman.characters[0].position.x -= 5;
+					} else if (bomberman.characters[0].position.x <= ((camera.visibleWidth/2) - 50)) {
+						bomberman.characters[0].position.x += 5;
+					}
+					//console.log(mesh.position.x)
+					renderer.render(scene, camera);
+				};
+
+				render();
+			}
 		}
 	}
-}]);
+]);

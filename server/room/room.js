@@ -18,13 +18,26 @@ module.exports = function(io, size) {
 	};
 
 	this.assignColours = function() {
-		var colours = ['blue', 'green', 'red', 'black'],
+		var colours = [{
+				colour: 'blue',
+				screenLocation: 'leftTop'
+			}, {
+				colour: 'green',
+				screenLocation: 'rightTop'
+			}, {
+				colour: 'red',
+				screenLocation: 'leftBottom'
+			}, {
+				colour: 'yellow',
+				screenLocation: 'rightBottom'
+			}],
 			party = [];
 
 		for (var i = 0; i < this.size; i++) {
 			party.push({
-				colour: colours[i], 
-				id: this.players[i].userId
+				colour: colours[i].colour, 
+				screenLocation: colours[i].screenLocation,
+				userId: this.players[i].userId
 			});
 		}
 
