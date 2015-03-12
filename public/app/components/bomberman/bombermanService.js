@@ -22,25 +22,46 @@ app.service('BombermanService', [
 			},
 			camera = camera.camera;
 
-		bomberman.characters = [];	
+		bomberman.characters = [];
+		bomberman.characterIndex = null;
 
 		bomberman.initListeners = function() {
+			Socket.on('moveLeft', function(position, userId) {
+				console.log(position, userId)
+				setPosition(position, userId);
+			});
+		
+			Socket.on('moveUp', function(position, userId) {
+				console.log(position, userId)
+				setPosition(position, userId);
+			});
 
+			Socket.on('moveRight', function(position, userId) {
+				console.log(position, userId)
+				setPosition(position, userId);
+			});
+
+			Socket.on('moveDown', function(position, userId) {
+				console.log(position, userId)
+				setPosition(position, userId);
+			});	
 		}; 
 
 		bomberman.keydown = function($event) {
+			var position = bomberman.characters[bomberman.characterIndex].position;
+			
 			switch ($event.keyCode) {
 				case keyCodes.left:
-					console.log('LEFT');
+					Socket.emit('left', position, handshake.userId);
 					break;
 				case keyCodes.up:
-					console.log('UP');
+					Socket.emit('up', position, handshake.userId);
 					break;
 				case keyCodes.right:
-					console.log('RIGHT');
+					Socket.emit('right', position, handshake.userId);
 					break;
 				case keyCodes.down:
-					console.log('DOWN');
+					Socket.emit('down', position, handshake.userId);
 					break;
 			}
 		};
@@ -48,6 +69,10 @@ app.service('BombermanService', [
 		bomberman.initCharacters = function() {
 			for (var i = 0; i < handshake.party.length; i++) {
 				bomberman.characters.push(createCharacter(handshake.party[i]));
+				
+				if (bomberman.characters[i].userId === handshake.userId) {
+					bomberman.characterIndex = i;
+				}
 			}
 		};
 
@@ -90,7 +115,6 @@ app.service('BombermanService', [
 			nose.position.z = 24;
 			character.add(nose);
 
-			console.log(camera.visibleWidth, camera.visibleHeight)
 			switch (partyPlayerInfo.screenLocation) {
 				case screenLocation.leftTop: 
 					character.position.x = -((camera.visibleWidth / 2) - 100);
@@ -113,6 +137,16 @@ app.service('BombermanService', [
 			character.userId = partyPlayerInfo.userId;
 
 			return character;
+		};
+		
+		var setPosition = function(position, userId) {
+			for (var i = 0; i < bomberman.characters.length; i++) {
+				if (bomberman.characters[i].userId === userId) {
+					bomberman.characters[i].position.x = position.x;
+					bomberman.characters[i].position.y = position.y;
+					break;
+				}
+			}
 		};
 	}
 ]);

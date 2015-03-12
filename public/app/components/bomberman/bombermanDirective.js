@@ -7,40 +7,26 @@ app.directive('bombermanThreeJs', [
 	'$window', 
 	'SceneService', 
 	'CameraService',
-	'HandshakeService',
+	'RendererService',
 	'BombermanService',
-	function($window, scene, camera, handshake, bomberman) {
+	function($window, scene, camera, renderer, bomberman) {
 		var camera = camera.camera,
-			scene = scene.scene;
+			scene = scene.scene,
+			renderer = renderer.renderer;
 
 		return {
 			link: function ($scope, $element, attr) {
-				var renderer = new THREE.WebGLRenderer();
-
-				renderer.setSize($window.innerWidth, $window.innerHeight);
+				// Appends Three.js output to the directive
 				$element.append(renderer.domElement);
-
+				// Initialize all characters
 				bomberman.initCharacters();
-
 
 				for (var i = 0; i < bomberman.characters.length; i++) {
 					scene.add(bomberman.characters[i]);
 				}
 
-
-
-
-
-
 				var render = function () {
 					requestAnimationFrame(render);
-					
-					if (bomberman.characters[0].position.x > (camera.visibleWidth/2) - 50) {
-						bomberman.characters[0].position.x -= 5;
-					} else if (bomberman.characters[0].position.x <= ((camera.visibleWidth/2) - 50)) {
-						bomberman.characters[0].position.x += 5;
-					}
-					//console.log(mesh.position.x)
 					renderer.render(scene, camera);
 				};
 
