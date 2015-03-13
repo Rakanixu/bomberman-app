@@ -8,8 +8,9 @@ app.directive('bombermanThreeJs', [
 	'SceneService', 
 	'CameraService',
 	'RendererService',
+	'MapService',
 	'BombermanService',
-	function($window, scene, camera, renderer, bomberman) {
+	function($window, scene, camera, renderer, map, bomberman) {
 		var camera = camera.camera,
 			scene = scene.scene,
 			renderer = renderer.renderer;
@@ -18,12 +19,11 @@ app.directive('bombermanThreeJs', [
 			link: function ($scope, $element, attr) {
 				// Appends Three.js output to the directive
 				$element.append(renderer.domElement);
+				// Initialize the map
+				console.log(map);
+				map.initMap();
 				// Initialize all characters
 				bomberman.initCharacters();
-
-				for (var i = 0; i < bomberman.characters.length; i++) {
-					scene.add(bomberman.characters[i]);
-				}
 
 				var render = function () {
 					requestAnimationFrame(render);

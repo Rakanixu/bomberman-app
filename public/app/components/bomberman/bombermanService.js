@@ -6,7 +6,8 @@ app.service('BombermanService', [
 	'$rootScope',
 	'HandshakeService',
 	'CameraService',
-	function($rootScope, handshake, camera) {
+	'SceneService',
+	function($rootScope, handshake, camera, scene) {
 		var bomberman = this,
 			keyCodes = {
 				left: 37,
@@ -20,31 +21,16 @@ app.service('BombermanService', [
 				leftBottom: 'leftBottom',
 				rightBottom: 'rightBottom'
 			},
-			camera = camera.camera;
+			camera = camera.camera,
+			scene = scene.scene;
 
 		bomberman.characters = [];
 		bomberman.characterIndex = null;
 
 		bomberman.initListeners = function() {
-			Socket.on('moveLeft', function(position, userId) {
-				console.log(position, userId)
+			Socket.on('move', function(position, userId) {
 				setPosition(position, userId);
 			});
-		
-			Socket.on('moveUp', function(position, userId) {
-				console.log(position, userId)
-				setPosition(position, userId);
-			});
-
-			Socket.on('moveRight', function(position, userId) {
-				console.log(position, userId)
-				setPosition(position, userId);
-			});
-
-			Socket.on('moveDown', function(position, userId) {
-				console.log(position, userId)
-				setPosition(position, userId);
-			});	
 		}; 
 
 		bomberman.keydown = function($event) {
@@ -73,6 +59,10 @@ app.service('BombermanService', [
 				if (bomberman.characters[i].userId === handshake.userId) {
 					bomberman.characterIndex = i;
 				}
+			}
+
+			for (var i = 0; i < bomberman.characters.length; i++) {
+				scene.add(bomberman.characters[i]);
 			}
 		};
 
@@ -117,20 +107,20 @@ app.service('BombermanService', [
 
 			switch (partyPlayerInfo.screenLocation) {
 				case screenLocation.leftTop: 
-					character.position.x = -((camera.visibleWidth / 2) - 100);
-					character.position.y = (camera.visibleHeight / 2) - 50;
+					character.position.x = -((camera.visibleWidth / 2) - camera.quadrantX);
+					character.position.y = (camera.visibleHeight / 2) - camera.quadrantY;
 					break;
 				case screenLocation.rightTop:
-					character.position.x = (camera.visibleWidth / 2) - 100;
-					character.position.y = (camera.visibleHeight / 2) - 50;
+					character.position.x = (camera.visibleWidth / 2) - camera.quadrantX;
+					character.position.y = (camera.visibleHeight / 2) - camera.quadrantY;
 					break;
 				case screenLocation.leftBottom:
-					character.position.x = -((camera.visibleWidth / 2) - 100);
-					character.position.y = -((camera.visibleHeight / 2) - 50);
+					character.position.x = -((camera.visibleWidth / 2) - camera.quadrantX);
+					character.position.y = -((camera.visibleHeight / 2) - camera.quadrantY);
 					break;
 				case screenLocation.rightBottom:
-					character.position.x = (camera.visibleWidth / 2) - 100;
-					character.position.y = -((camera.visibleHeight / 2) - 50);
+					character.position.x = (camera.visibleWidth / 2) - camera.quadrantX;
+					character.position.y = -((camera.visibleHeight / 2) - camera.quadrantY);
 					break;
 			}
 

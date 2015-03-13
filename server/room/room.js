@@ -55,31 +55,23 @@ module.exports = function(io, size) {
 		for (var clientId in roomClients) {
 			io.sockets.connected[clientId].on('left', function(position, userId) {
 				position.x -= 10;
-				io.to(this.roomName).emit('moveLeft', position, userId);
-				console.log(position, userId)
-			});
+				io.to(this.roomName).emit('move', position, userId);
+			}.bind(this));
 			
 			io.sockets.connected[clientId].on('up', function(position, userId) {
-				console.log(position, userId)
 				position.y += 10;
-				io.to(this.roomName).emit('moveUp', position, userId);
-			});
+				io.to(this.roomName).emit('move', position, userId);
+			}.bind(this));
 			
 			io.sockets.connected[clientId].on('right', function(position, userId) {
-				console.log(position, userId)
 				position.x += 10;
-				for (var clientId in roomClients) {
-					io.sockets.connected[clientId].emit('moveRight', position, userId);
-				}
-				//io.to(this.roomName).emit('moveRight', position, userId);
-			});
+				io.to(this.roomName).emit('move', position, userId);
+			}.bind(this));
 			
 			io.sockets.connected[clientId].on('down', function(position, userId) {
-				console.log(position, userId)
 				position.y -= 10;
-				io.to(this.roomName).emit('moveDown', position, userId);
-			});
+				io.to(this.roomName).emit('move', position, userId);
+			}.bind(this));
 		}
-
 	};
 };
