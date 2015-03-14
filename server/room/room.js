@@ -53,24 +53,8 @@ module.exports = function(io, size) {
 		var roomClients = io.sockets.adapter.rooms[this.roomName];
 		
 		for (var clientId in roomClients) {
-			io.sockets.connected[clientId].on('left', function(position, userId) {
-				position.x -= 10;
-				io.to(this.roomName).emit('move', position, userId);
-			}.bind(this));
-			
-			io.sockets.connected[clientId].on('up', function(position, userId) {
-				position.y += 10;
-				io.to(this.roomName).emit('move', position, userId);
-			}.bind(this));
-			
-			io.sockets.connected[clientId].on('right', function(position, userId) {
-				position.x += 10;
-				io.to(this.roomName).emit('move', position, userId);
-			}.bind(this));
-			
-			io.sockets.connected[clientId].on('down', function(position, userId) {
-				position.y -= 10;
-				io.to(this.roomName).emit('move', position, userId);
+			io.sockets.connected[clientId].on('moveTo', function(keyCode, userId) {
+				io.to(this.roomName).emit('move', keyCode, userId);
 			}.bind(this));
 		}
 	};

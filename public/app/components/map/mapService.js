@@ -22,11 +22,14 @@ app.service('MapService', [
 		stoneMaterial = new THREE.MeshBasicMaterial({map: stoneTexture});
 		woodMaterial = new THREE.MeshBasicMaterial({map: woodTexture});
 
-		map.boxes = [];
+		map.boxes = {
+			noBreakable: [],
+			breakable: []
+		};
 
 		map.initMap = function() {
+			// Creates the static stone boxes
 			for (var j = 0; j < camera.heightRatio - 1; j++) {
-				
 				if (j % 2 !== 0) {
 					for (var i = 0; i < camera.widthRatio - 1; i++) {
 						if (i % 2 !== 0) {
@@ -36,12 +39,28 @@ app.service('MapService', [
 							stoneBox.position.y =  ((camera.visibleHeight / 2) - camera.quadrantY) - (camera.quadrantY * j);
 							stoneBox.breakable = false;
 
-							map.boxes.push(stoneBox);
+							map.boxes.noBreakable.push(stoneBox);
 							scene.add(stoneBox);
 						}
 					}
 				}
 			}
+			
+			// Creates the breakable boxes
+			for (var j = 0; j < camera.heightRatio - 1; j++) {
+				for (var i = 0; i < camera.widthRatio - 1; i++) {
+					if ((i % 2 === 0 || j % 2 === 0) && (j > 2 && i > 2) && (j < camera.heightRatio - 4 && i < camera.widthRatio - 4)) {
+						var woodBox = new THREE.Mesh(geometry, woodMaterial);
+
+						woodBox.position.x = -((camera.visibleWidth / 2) - camera.quadrantX) + (camera.quadrantX * i);
+						woodBox.position.y =  ((camera.visibleHeight / 2) - camera.quadrantY) - (camera.quadrantY * j);
+						woodBox.breakable = true;
+
+						map.boxes.breakable.push(woodBox);
+						scene.add(woodBox);
+					}
+				}
+			}			
 		};
 	}
 ]);

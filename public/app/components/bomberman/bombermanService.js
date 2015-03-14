@@ -28,8 +28,8 @@ app.service('BombermanService', [
 		bomberman.characterIndex = null;
 
 		bomberman.initListeners = function() {
-			Socket.on('move', function(position, userId) {
-				setPosition(position, userId);
+			Socket.on('move', function(keyCode, userId) {
+				setPosition(keyCode, userId);
 			});
 		}; 
 
@@ -38,16 +38,16 @@ app.service('BombermanService', [
 			
 			switch ($event.keyCode) {
 				case keyCodes.left:
-					Socket.emit('left', position, handshake.userId);
+					Socket.emit('moveTo', keyCodes.left, handshake.userId);
 					break;
 				case keyCodes.up:
-					Socket.emit('up', position, handshake.userId);
+					Socket.emit('moveTo', keyCodes.up, handshake.userId);
 					break;
 				case keyCodes.right:
-					Socket.emit('right', position, handshake.userId);
+					Socket.emit('moveTo', keyCodes.right, handshake.userId);
 					break;
 				case keyCodes.down:
-					Socket.emit('down', position, handshake.userId);
+					Socket.emit('moveTo', keyCodes.down, handshake.userId);
 					break;
 			}
 		};
@@ -129,11 +129,24 @@ app.service('BombermanService', [
 			return character;
 		};
 		
-		var setPosition = function(position, userId) {
+		var setPosition = function(key, userId) {
 			for (var i = 0; i < bomberman.characters.length; i++) {
 				if (bomberman.characters[i].userId === userId) {
-					bomberman.characters[i].position.x = position.x;
-					bomberman.characters[i].position.y = position.y;
+					switch (key) {
+						case keyCodes.left:
+							bomberman.characters[i].position.x -= camera.quadrantX;
+							break
+						case keyCodes.up:
+							bomberman.characters[i].position.y += camera.quadrantY;
+							break;
+						case keyCodes.right:
+							bomberman.characters[i].position.x += camera.quadrantX;
+							break;
+						case keyCodes.down:
+							bomberman.characters[i].position.y -= camera.quadrantY;
+							break;
+					}
+					
 					break;
 				}
 			}
