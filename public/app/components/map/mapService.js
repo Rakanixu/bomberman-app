@@ -33,14 +33,10 @@ app.service('MapService', [
 				if (j % 2 !== 0) {
 					for (var i = 0; i < camera.widthRatio - 1; i++) {
 						if (i % 2 !== 0) {
-							var stoneBox = new THREE.Mesh(geometry, stoneMaterial);
+							var box = createBox(j, i, stoneMaterial, false);
 
-							stoneBox.position.x = -((camera.visibleWidth / 2) - camera.quadrantX) + (camera.quadrantX * i);
-							stoneBox.position.y =  ((camera.visibleHeight / 2) - camera.quadrantY) - (camera.quadrantY * j);
-							stoneBox.breakable = false;
-
-							map.boxes.noBreakable.push(stoneBox);
-							scene.add(stoneBox);
+							map.boxes.noBreakable.push(box);
+							scene.add(box);
 						}
 					}
 				}
@@ -49,18 +45,30 @@ app.service('MapService', [
 			// Creates the breakable boxes
 			for (var j = 0; j < camera.heightRatio - 1; j++) {
 				for (var i = 0; i < camera.widthRatio - 1; i++) {
-					if ((i % 2 === 0 || j % 2 === 0) && (j > 2 && i > 2) && (j < camera.heightRatio - 4 && i < camera.widthRatio - 4)) {
-						var woodBox = new THREE.Mesh(geometry, woodMaterial);
+					if ((i % 2 === 0 || j % 2 === 0) && 
+							(j >= 1 && i >= 1) && 
+							(j <= camera.heightRatio - 3 && i <= camera.widthRatio - 3)) {
+						var box = createBox(j, i, woodMaterial, true);
 
-						woodBox.position.x = -((camera.visibleWidth / 2) - camera.quadrantX) + (camera.quadrantX * i);
-						woodBox.position.y =  ((camera.visibleHeight / 2) - camera.quadrantY) - (camera.quadrantY * j);
-						woodBox.breakable = true;
-
-						map.boxes.breakable.push(woodBox);
-						scene.add(woodBox);
-					}
+						map.boxes.breakable.push(box);
+						scene.add(box);
+					}// else {
+						// if (j === 0) {
+						
+						// }
+					// }
 				}
 			}			
+		};
+		
+		var createBox = function(hIndex, wIndex, material, breakable) {
+			var box = new THREE.Mesh(geometry, material);
+
+			box.position.x = -((camera.visibleWidth / 2) - camera.quadrantX) + (camera.quadrantX * wIndex);
+			box.position.y =  ((camera.visibleHeight / 2) - camera.quadrantY) - (camera.quadrantY * hIndex);
+			box.breakable = breakable;		
+			
+			return box;
 		};
 	}
 ]);
