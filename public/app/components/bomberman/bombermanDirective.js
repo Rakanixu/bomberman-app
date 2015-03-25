@@ -1,36 +1,53 @@
 'use strict';
 /**
  * Bomberman directive
- * Wraps all the Three.js code
+ * Entry point for pixi.js openGL engine
  */
 app.directive('bombermanThreeJs', [
 	'$window', 
-	'SceneService', 
-	'CameraService',
+	'StageService', 
 	'RendererService',
 	'MapService',
 	'BombermanService',
-	function($window, scene, camera, renderer, map, bomberman) {
-		var camera = camera.camera,
-			scene = scene.scene,
+	function($window, stage, renderer, map, bomberman) {
+		var stage = stage.stage,
 			renderer = renderer.renderer;
+
+			var animate = function() {
+				requestAnimFrame(animate);
+				// Render the stage
+				renderer.render(stage);
+			};
 
 		return {
 			link: function ($scope, $element, attr) {
-				// Appends Three.js output to the directive
-				$element.append(renderer.domElement);
-				// Initialize the map
-				console.log(map);
-				map.initMap();
-				// Initialize all characters
-				bomberman.initCharacters();
+				var assetsToLoader = [
+						'assets/data/spriteBarbarian.json', 
+						'assets/data/spriteCossack.json',
+						'assets/data/spriteLady.json',
+						'assets/data/spriteKotetsu.json'
+					],
+					loader = new PIXI.AssetLoader(assetsToLoader);
 
-				var render = function () {
-					requestAnimationFrame(render);
-					renderer.render(scene, camera);
+				loader.onComplete = onAssetsLoaded;
+				loader.load();
+
+				// Appends pixi.js output to the directive
+				$element.append(renderer.view);
+
+				var onAssetsLoaded = function() {
+					// Initialize the map
+					map.initMap();
+					// Initialize all characters
+					bomberman.initCharacters();
+
+					requestAnimFrame(animate);
 				};
 
-				render();
+
+				setTimeout(function() {
+					onAssetsLoaded()
+				},1500);
 			}
 		}
 	}

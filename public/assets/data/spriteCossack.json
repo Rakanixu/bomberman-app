@@ -1,0 +1,44 @@
+{
+    "frames": {
+        "cossack1.png": {
+            "frame": {"x":0,"y":0,"w": 20,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 20,"h": 40},
+            "sourceSize": {"w": 20,"h": 40}
+        },
+        "cossack2.png": {
+            "frame": {"x":21,"y":0,"w": 19,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 19,"h": 40},
+            "sourceSize": {"w": 19,"h": 40}
+        },
+        "cossack3.png": {
+            "frame": {"x":40,"y":0,"w": 19,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 19,"h": 40},
+            "sourceSize": {"w": 19,"h": 40}
+        },
+        "cossack4.png": {
+            "frame": {"x":58,"y":0,"w": 19,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 19,"h": 40},
+            "sourceSize": {"w": 19,"h": 40}
+        },
+        "cossack5.png": {
+            "frame": {"x":76,"y":0,"w": 19,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 19,"h": 40},
+            "sourceSize": {"w": 19,"h": 40}
+        }
+    },
+    "meta": {
+        "image": "../img/cossack.gif",
+        "size": {"w":691,"h":127},
+        "scale": "1"
+    }
+}

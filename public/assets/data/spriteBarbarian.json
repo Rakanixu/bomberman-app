@@ -1,0 +1,44 @@
+{
+    "frames": {
+        "barbarian1.png": {
+            "frame": {"x":0,"y":0,"w": 32,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 32,"h": 40},
+            "sourceSize": {"w": 32,"h": 40}
+        },
+        "barbarian2.png": {
+            "frame": {"x":32,"y":0,"w": 32,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 32,"h": 40},
+            "sourceSize": {"w": 32,"h": 40}
+        },
+        "barbarian3.png": {
+            "frame": {"x":65,"y":0,"w": 35,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 35,"h": 40},
+            "sourceSize": {"w": 35,"h": 40}
+        },
+        "barbarian4.png": {
+            "frame": {"x":102,"y":0,"w": 35,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 35,"h": 40},
+            "sourceSize": {"w": 35,"h": 40}
+        },
+        "barbarian5.png": {
+            "frame": {"x":135,"y":0,"w": 30,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 30,"h": 40},
+            "sourceSize": {"w": 30,"h": 40}
+        }
+    },
+    "meta": {
+        "image": "../img/barbarian.gif",
+        "size": {"w":608,"h":168},
+        "scale": "1"
+    }
+}

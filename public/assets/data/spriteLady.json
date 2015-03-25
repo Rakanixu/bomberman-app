@@ -1,0 +1,44 @@
+{
+    "frames": {
+        "lady1.png": {
+            "frame": {"x":0,"y":0,"w": 20,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 20,"h": 40},
+            "sourceSize": {"w": 20,"h": 40}
+        },
+        "lady2.png": {
+            "frame": {"x":20,"y":0,"w": 20,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 20,"h": 40},
+            "sourceSize": {"w": 20,"h": 40}
+        },
+        "lady3.png": {
+            "frame": {"x":40,"y":0,"w": 20,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 20,"h": 40},
+            "sourceSize": {"w": 20,"h": 40}
+        },
+        "lady4.png": {
+            "frame": {"x":60,"y":0,"w": 20,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 20,"h": 40},
+            "sourceSize": {"w": 20,"h": 40}
+        },
+        "lady5.png": {
+            "frame": {"x":80,"y":0,"w": 20,"h": 40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 20,"h": 40},
+            "sourceSize": {"w": 20,"h": 40}
+        }
+    },
+    "meta": {
+        "image": "../img/lady.gif",
+        "size": {"w":693,"h":118},
+        "scale": "1"
+    }
+}

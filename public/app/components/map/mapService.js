@@ -1,26 +1,17 @@
 'use strict';
 /**
- * Map service. Creates the three.js map
+ * Map service. Creates the game map
  */
 app.service('MapService', [
-	'CameraService',
-	'SceneService',
+	'StageService',
 	'RendererService',
-	function(camera, scene, renderer) {
+	function(stage, renderer) {
 		var map = this,
-			camera = camera.camera,
-			scene = scene.scene,
+			stage = stage.stage,
 			renderer = renderer.renderer,
-			geometry = new THREE.BoxGeometry(camera.quadrantX, camera.quadrantY, 50),
-			stoneTexture = THREE.ImageUtils.loadTexture('assets/img/stoneBox.png'),
-			woodTexture = THREE.ImageUtils.loadTexture('assets/img/woodBox.gif'),
-			stoneMaterial = null,
-			woodMaterial = null;
-
-		stoneTexture.anisotropy = renderer.getMaxAnisotropy();
-		woodTexture.anisotropy = renderer.getMaxAnisotropy();
-		stoneMaterial = new THREE.MeshBasicMaterial({map: stoneTexture});
-		woodMaterial = new THREE.MeshBasicMaterial({map: woodTexture});
+			stoneTexture = PIXI.Texture.fromImage('assets/img/stoneBox.png'),
+			woodTexture = PIXI.Texture.fromImage('assets/img/woodBox.gif'),
+			grassTexture = PIXI.Texture.fromImage('assets/img/grass.png');
 
 		map.boxes = {
 			noBreakable: [],
@@ -29,46 +20,46 @@ app.service('MapService', [
 
 		map.initMap = function() {
 			// Creates the static stone boxes
-			for (var j = 0; j < camera.heightRatio - 1; j++) {
+			for (var j = 0; j < renderer.heightDivision - 1; j++) {
 				if (j % 2 !== 0) {
-					for (var i = 0; i < camera.widthRatio - 1; i++) {
+					for (var i = 0; i < renderer.widthDivision - 1; i++) {
 						if (i % 2 !== 0) {
-							var box = createBox(j, i, stoneMaterial, false);
+							var box = createBox(j, i, stoneTexture, false);
 
 							map.boxes.noBreakable.push(box);
-							scene.add(box);
+							stage.addChild(box);
 						}
 					}
 				}
 			}
 			
 			// Creates the breakable boxes
-			for (var j = 0; j < camera.heightRatio - 1; j++) {
-				for (var i = 0; i < camera.widthRatio - 1; i++) {
+			for (var j = 0; j < renderer.heightDivision - 1; j++) {
+				for (var i = 0; i < renderer.widthDivision - 1; i++) {
 					if ((i % 2 === 0 || j % 2 === 0) && 
 							(j >= 1 && i >= 1) && 
-							(j <= camera.heightRatio - 3 && i <= camera.widthRatio - 3)) {
-						var box = createBox(j, i, woodMaterial, true);
+							(j <= renderer.heightDivision - 3 && i <= renderer.widthDivision - 3)) {
+						var box = createBox(j, i, woodTexture, true);
 
 						map.boxes.breakable.push(box);
-						scene.add(box);
-					}// else {
-						// if (j === 0) {
-						
-						// }
-					// }
+						stage.addChild(box);
+					}
 				}
 			}			
 		};
 		
-		var createBox = function(hIndex, wIndex, material, breakable) {
-			var box = new THREE.Mesh(geometry, material);
+		var createBox = function(hIndex, wIndex, texture, breakable) {
+			var box = new PIXI.Sprite(texture);
 
-			box.position.x = -((camera.visibleWidth / 2) - camera.quadrantX) + (camera.quadrantX * wIndex);
-			box.position.y =  ((camera.visibleHeight / 2) - camera.quadrantY) - (camera.quadrantY * hIndex);
-			box.breakable = breakable;		
+			box.anchor.x = 0;
+			box.anchor.y = 0;
+			box.position.x = wIndex * renderer.quadrantX;
+			box.position.y = hIndex * renderer.quadrantY;
+			box.width = renderer.quadrantX;
+			box.height = renderer.quadrantY;
+			box.breakable = breakable;	
 			
 			return box;
-		};
+		};		
 	}
 ]);
