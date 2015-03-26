@@ -1,39 +1,39 @@
 {
     "frames": {
         "kotetsu1.png": {
-            "frame": {"x":0,"y":0,"w": 20,"h": 40},
+            "frame": {"x":0,"y":0,"w": 23,"h": 40},
             "rotated": false,
             "trimmed": false,
-            "spriteSourceSize": {"x":0,"y":0,"w": 20,"h": 40},
+            "spriteSourceSize": {"x":0,"y":0,"w": 23,"h": 40},
             "sourceSize": {"w": 20,"h": 40}
         },
         "kotetsu2.png": {
-            "frame": {"x":24,"y":0,"w": 18,"h": 40},
+            "frame": {"x":23,"y":0,"w": 23,"h": 40},
             "rotated": false,
             "trimmed": false,
-            "spriteSourceSize": {"x":0,"y":0,"w": 18,"h": 40},
-            "sourceSize": {"w": 18,"h": 40}
+            "spriteSourceSize": {"x":0,"y":0,"w": 23,"h": 40},
+            "sourceSize": {"w": 23,"h": 40}
         },
         "kotetsu3.png": {
-            "frame": {"x":44,"y":0,"w": 15,"h": 40},
+            "frame": {"x":48,"y":0,"w": 25,"h": 40},
             "rotated": false,
             "trimmed": false,
-            "spriteSourceSize": {"x":0,"y":0,"w": 15,"h": 40},
-            "sourceSize": {"w": 15,"h": 40}
+            "spriteSourceSize": {"x":0,"y":0,"w": 25,"h": 40},
+            "sourceSize": {"w": 25,"h": 40}
         },
         "kotetsu4.png": {
-            "frame": {"x":56,"y":0,"w": 16,"h": 40},
+            "frame": {"x":73,"y":0,"w": 23,"h": 40},
             "rotated": false,
             "trimmed": false,
-            "spriteSourceSize": {"x":0,"y":0,"w": 16,"h": 40},
-            "sourceSize": {"w": 16,"h": 40}
+            "spriteSourceSize": {"x":0,"y":0,"w": 23,"h": 40},
+            "sourceSize": {"w": 23,"h": 40}
         },
         "kotetsu5.png": {
-            "frame": {"x":72,"y":0,"w": 18,"h": 40},
+            "frame": {"x":97,"y":0,"w": 22,"h": 40},
             "rotated": false,
             "trimmed": false,
-            "spriteSourceSize": {"x":0,"y":0,"w": 18,"h": 40},
-            "sourceSize": {"w": 18,"h": 40}
+            "spriteSourceSize": {"x":0,"y":0,"w": 22,"h": 40},
+            "sourceSize": {"w": 22,"h": 40}
         }
     },
     "meta": {

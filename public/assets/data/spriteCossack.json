@@ -29,11 +29,11 @@
             "sourceSize": {"w": 19,"h": 40}
         },
         "cossack5.png": {
-            "frame": {"x":76,"y":0,"w": 19,"h": 40},
+            "frame": {"x":77,"y":0,"w": 19,"h": 40},
             "rotated": false,
             "trimmed": false,
-            "spriteSourceSize": {"x":0,"y":0,"w": 19,"h": 40},
-            "sourceSize": {"w": 19,"h": 40}
+            "spriteSourceSize": {"x":0,"y":0,"w": 18,"h": 40},
+            "sourceSize": {"w": 18,"h": 40}
         }
     },
     "meta": {

@@ -29,11 +29,11 @@
             "sourceSize": {"w": 35,"h": 40}
         },
         "barbarian5.png": {
-            "frame": {"x":135,"y":0,"w": 30,"h": 40},
+            "frame": {"x":136,"y":0,"w": 28,"h": 40},
             "rotated": false,
             "trimmed": false,
-            "spriteSourceSize": {"x":0,"y":0,"w": 30,"h": 40},
-            "sourceSize": {"w": 30,"h": 40}
+            "spriteSourceSize": {"x":0,"y":0,"w": 28,"h": 40},
+            "sourceSize": {"w": 28,"h": 40}
         }
     },
     "meta": {

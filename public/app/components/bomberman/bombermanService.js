@@ -23,13 +23,23 @@ app.service('BombermanService', [
 				rightBottom: 'rightBottom'
 			},
 			stage = stage.stage,
-			renderer = renderer.renderer;
+			renderer = renderer.renderer,
+			speed = Math.round(renderer.quadrantX / 25);
 
 		bomberman.characters = [];
 		bomberman.characterIndex = null;
 
 		bomberman.initListeners = function() {
 			Socket.on('move', function(keyCode, userId) {
+
+				for (var i = 0; i < bomberman.characters.length; i++) {
+					if (bomberman.characters[i].isMoving && bomberman.characters[i].userId === userId) {
+						bomberman.characters[i].keyOnStack = keyCode;
+					} else {
+						bomberman.characters[i].keyOnStack = null;
+					}
+				}
+
 				setPosition(keyCode, userId);
 			});
 		}; 
@@ -113,6 +123,8 @@ app.service('BombermanService', [
 			}
 
 			character.userId = partyPlayerInfo.userId;
+			character.isMoving = false;
+			character.keyOnStack = null;
 
 			return character;
 		};
@@ -121,7 +133,7 @@ app.service('BombermanService', [
 			var collision = false;
 
 			for (var i = 0; i < bomberman.characters.length; i++) {
-				if (bomberman.characters[i].userId === userId) {
+				if (bomberman.characters[i].userId === userId && !bomberman.characters[i].isMoving) {
 					var auxCharacter = {
 						width: bomberman.characters[i].width,
 						height: bomberman.characters[i].height,
@@ -132,39 +144,83 @@ app.service('BombermanService', [
 					};
 
 					// Applies the movement coordinate to the aux object
-					switch (key) {
-						case keyCodes.left:
-							auxCharacter.position.x -= 1;
-							break
-						case keyCodes.up:
-							auxCharacter.position.y -= 1;
-							break;
-						case keyCodes.right:
-							auxCharacter.position.x += 1;
-							break;
-						case keyCodes.down:
-							auxCharacter.position.y += 1;
-							break;
-					}	
+					setFuturePosition(auxCharacter, key);
 
 					// Checks for collisions
-					for (var j = 0; j < map.boxes.breakable.length; j++) {
-						
-						if (checkCollision(auxCharacter, map.boxes.breakable[j])) {
-							collision = true;
-						}
-					}
-
-					for (var j = 0; j < map.boxes.noBreakable.length; j++) {
-						if (checkCollision(auxCharacter, map.boxes.noBreakable[j])) {
-							collision = true;
-						}
-					}
+					collision = checkCollisions(auxCharacter);
 
 					// No collision, movement to be applied
-					if (!collision /*&& auxCharacter.position.x < 0 && auxCharacter.position.y < 0*/) {
-						bomberman.characters[i].position.x = auxCharacter.position.x;
-						bomberman.characters[i].position.y = auxCharacter.position.y;
+					if (!collision) {
+						var moveTransition = function() {
+							switch (key) {
+								case keyCodes.left:
+									bomberman.characters[i].position.x -= speed;
+									if (bomberman.characters[i].position.x > auxCharacter.position.x) {
+										requestAnimFrame(moveTransition);
+									} else {
+//REFACTOR ELSE FOR THIS GIVEN SWITCH
+//CODE REPEATED EVERY WHERE
+										// Due to speed, pixel calculus is not exact if character moves more than one pixel per frame
+										bomberman.characters[i].position.x = auxCharacter.position.x;
+										bomberman.characters[i].isMoving = false;
+
+										if (bomberman.characters[i].keyOnStack !== null) {
+											setPosition(bomberman.characters[i].keyOnStack, userId);
+											bomberman.characters[i].keyOnStack = null;
+										}
+									}
+									break;
+								case keyCodes.up:
+									bomberman.characters[i].position.y -= speed;
+									if (bomberman.characters[i].position.y > auxCharacter.position.y) {
+										requestAnimFrame(moveTransition);
+									} else {
+										// Due to speed, pixel calculus is not exact if character moves more than one pixel per frame
+										bomberman.characters[i].position.y = auxCharacter.position.y;
+										bomberman.characters[i].isMoving = false;
+
+										if (bomberman.characters[i].keyOnStack !== null) {
+											setPosition(bomberman.characters[i].keyOnStack, userId);
+											bomberman.characters[i].keyOnStack = null;
+										}
+									}
+									break;
+								case keyCodes.right:
+									bomberman.characters[i].position.x += speed;
+									if (bomberman.characters[i].position.x < auxCharacter.position.x) {
+										requestAnimFrame(moveTransition);
+									} else {
+										// Due to speed, pixel calculus is not exact if character moves more than one pixel per frame
+										bomberman.characters[i].position.x = auxCharacter.position.x;
+										bomberman.characters[i].isMoving = false;
+
+										if (bomberman.characters[i].keyOnStack !== null) {
+											setPosition(bomberman.characters[i].keyOnStack, userId);
+											bomberman.characters[i].keyOnStack = null;
+										}
+									}
+									break;
+								case keyCodes.down:
+									bomberman.characters[i].position.y += speed;
+									if (bomberman.characters[i].position.y < auxCharacter.position.y) {
+										requestAnimFrame(moveTransition);
+									} else {
+										// Due to speed, pixel calculus is not exact if character moves more than one pixel per frame
+										bomberman.characters[i].position.y = auxCharacter.position.y;
+										bomberman.characters[i].isMoving = false;
+
+										if (bomberman.characters[i].keyOnStack !== null) {
+											setPosition(bomberman.characters[i].keyOnStack, userId);
+											bomberman.characters[i].keyOnStack = null;
+										}
+									}
+									break;
+							}
+						};
+
+						bomberman.characters[i].isMoving = true;
+						// Executes the movement transition visualization
+						requestAnimFrame(moveTransition);
 					}
 
 					break;
@@ -172,11 +228,53 @@ app.service('BombermanService', [
 			}
 		};
 
+		var setFuturePosition = function(character, key) {
+			switch (key) {
+				case keyCodes.left:
+					character.position.x -= renderer.quadrantX;
+					break
+				case keyCodes.up:
+					character.position.y -= renderer.quadrantY;
+					break;
+				case keyCodes.right:
+					character.position.x += renderer.quadrantX;
+					break;
+				case keyCodes.down:
+					character.position.y += renderer.quadrantY;
+					break;
+			}	
+		};
+
+		var checkCollisions = function(character) {
+			var collision = false;
+
+			for (var j = 0; j < map.boxes.breakable.length; j++) {
+				if (checkCollision(character, map.boxes.breakable[j])) {
+					collision = true;
+				}
+			}
+
+			for (var j = 0; j < map.boxes.noBreakable.length; j++) {
+				if (checkCollision(character, map.boxes.noBreakable[j])) {
+					collision = true;
+				}
+			}
+
+			if (character.position.x < 0 || 
+					character.position.y < 0 || 
+					character.position.x > (renderer.quadrantX * (renderer.widthDivision - 2)) || 
+					character.position.y > (renderer.quadrantY * (renderer.heightDivision - 2))) {
+				collision = true;
+			}
+
+			return collision;
+		};
+
 		var checkCollision = function(sprite1, sprite2) {
-			return !(sprite2.position.x >= (sprite1.position.x + sprite1.width)  || 
-				(sprite2.position.x + sprite2.width ) <= sprite1.position.x || 
-				sprite2.position.y >= (sprite1.position.y + sprite1.height) ||
-				(sprite2.position.y + sprite2.height) <= sprite1.position.y);
+			return !(sprite2.position.x >= (sprite1.position.x + sprite1.width - 5) || 
+				(sprite2.position.x + sprite2.width - 5) <= sprite1.position.x || 
+				sprite2.position.y >= (sprite1.position.y + sprite1.height - 5) ||
+				(sprite2.position.y + sprite2.height - 5) <= sprite1.position.y);
 	    };
 	}
 ]);

@@ -12,7 +12,7 @@ app.service('RendererService', [
 		renderer.renderer.totalHeight = $window.innerHeight;
 		renderer.renderer.widthDivision = 18;
 		renderer.renderer.heightDivision = 12;
-		renderer.renderer.quadrantX = $window.innerWidth / renderer.renderer.widthDivision;
-		renderer.renderer.quadrantY =$window.innerHeight / renderer.renderer.heightDivision;
+		renderer.renderer.quadrantX = Math.round($window.innerWidth / renderer.renderer.widthDivision);
+		renderer.renderer.quadrantY = Math.round($window.innerHeight / renderer.renderer.heightDivision);
 	}
 ]);
