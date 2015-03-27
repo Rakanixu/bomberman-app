@@ -56,6 +56,10 @@ module.exports = function(io, size) {
 			io.sockets.connected[clientId].on('moveTo', function(keyCode, userId) {
 				io.to(this.roomName).emit('move', keyCode, userId);
 			}.bind(this));
+
+			io.sockets.connected[clientId].on('leaveBomb', function(userId) {
+				io.to(this.roomName).emit('bomb', userId);
+			}.bind(this));
 		}
 	};
 };

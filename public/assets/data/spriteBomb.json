@@ -1,0 +1,37 @@
+{
+    "frames": {
+        "bomb1.png": {
+            "frame": {"x":0,"y":0,"w": 16,"h": 16},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 16,"h": 16},
+            "sourceSize": {"w": 16,"h": 16}
+        },
+        "bomb2.png": {
+            "frame": {"x":17,"y":0,"w": 16,"h": 16},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 16,"h": 16},
+            "sourceSize": {"w": 16,"h": 16}
+        },
+        "bomb3.png": {
+            "frame": {"x":34,"y":0,"w": 16,"h": 16},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 16,"h": 16},
+            "sourceSize": {"w": 16,"h": 16}
+        },
+        "bomb4.png": {
+            "frame": {"x":51,"y":0,"w": 16,"h": 16},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w": 16,"h": 16},
+            "sourceSize": {"w": 16,"h": 16}
+        }
+    },
+    "meta": {
+        "image": "../img/bombs.png",
+        "size": {"w":262,"h":135},
+        "scale": "1"
+    }
+}

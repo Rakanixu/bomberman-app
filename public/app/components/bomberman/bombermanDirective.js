@@ -25,15 +25,11 @@ app.directive('bombermanThreeJs', [
 						'assets/data/spriteBarbarian.json', 
 						'assets/data/spriteCossack.json',
 						'assets/data/spriteLady.json',
-						'assets/data/spriteKotetsu.json'
+						'assets/data/spriteKotetsu.json',
+						'assets/data/spriteBomb.json',
+						'assets/data/spriteExplosion.json'
 					],
-					loader = new PIXI.AssetLoader(assetsToLoader);
-
-				loader.onComplete = onAssetsLoaded;
-				loader.load();
-
-				// Appends pixi.js output to the directive
-				$element.append(renderer.view);
+					loader = new PIXI.AssetLoader(assetsToLoader, true);
 
 				var onAssetsLoaded = function() {
 					// Initialize the map
@@ -42,12 +38,13 @@ app.directive('bombermanThreeJs', [
 					bomberman.initCharacters();
 
 					requestAnimFrame(animate);
-				};
+				};					
 
+				loader.onComplete = onAssetsLoaded;
+				loader.load();
 
-				setTimeout(function() {
-					onAssetsLoaded()
-				},1500);
+				// Appends pixi.js output to the directive
+				$element.append(renderer.view);
 			}
 		}
 	}
